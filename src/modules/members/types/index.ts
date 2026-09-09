@@ -2,8 +2,9 @@ export interface Member {
   id: string;
   name: string;
   year: string;
-  team: string;
   department: string;
+  teamName: string;
+  photoUrl?: string;
 }
 
 export interface MembersDirectoryContent {
