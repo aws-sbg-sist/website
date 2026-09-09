@@ -335,6 +335,49 @@ export const validateProjectForm = (data: {
 };
 
 /**
+ * Achievement Form Validation
+ */
+export const validateAchievementForm = (data: {
+  title?: string;
+  recipientName?: string;
+  category?: string;
+  description?: string;
+  date?: string;
+  proofUrl?: string;
+  academicYear?: string;
+}): ValidationResult<typeof data> => {
+  const errors: Record<string, string> = {};
+
+  if (!data.title || data.title.trim().length < 3) {
+    errors.title = 'Achievement title is required (minimum 3 characters).';
+  }
+  if (!data.recipientName || data.recipientName.trim().length < 2) {
+    errors.recipientName = 'Recipient name is required (minimum 2 characters).';
+  }
+  if (!data.category) {
+    errors.category = 'Category must be selected.';
+  }
+  if (!data.description || data.description.trim().length < 10) {
+    errors.description = 'Achievement description is required (minimum 10 characters).';
+  }
+  if (!data.date) {
+    errors.date = 'Date is required (YYYY-MM-DD).';
+  }
+  if (!data.academicYear || !isValidAcademicYear(data.academicYear)) {
+    errors.academicYear = 'Academic year must be formatted as YYYY-YYYY (e.g. 2025-2026).';
+  }
+  if (data.proofUrl && !isValidUrl(data.proofUrl)) {
+    errors.proofUrl = 'Verification proof link must be a valid URL.';
+  }
+
+  return {
+    success: Object.keys(errors).length === 0,
+    data: Object.keys(errors).length === 0 ? data : undefined,
+    errors: Object.keys(errors).length > 0 ? errors : undefined,
+  };
+};
+
+/**
  * Gallery Form Validation
  */
 export const validateGalleryForm = (data: {
@@ -356,6 +399,37 @@ export const validateGalleryForm = (data: {
   }
   if (!data.date) {
     errors.date = 'Date is required (YYYY-MM-DD).';
+  }
+
+  return {
+    success: Object.keys(errors).length === 0,
+    data: Object.keys(errors).length === 0 ? data : undefined,
+    errors: Object.keys(errors).length > 0 ? errors : undefined,
+  };
+};
+
+/**
+ * Alumni Team Form Validation
+ */
+export const validateAlumniTeamForm = (data: {
+  academicYear?: string;
+  teamLead?: string;
+  summary?: string;
+  membersCount?: number;
+}): ValidationResult<typeof data> => {
+  const errors: Record<string, string> = {};
+
+  if (!data.academicYear || !isValidAcademicYear(data.academicYear)) {
+    errors.academicYear = 'Academic year must be formatted as YYYY-YYYY (e.g. 2024-2025).';
+  }
+  if (!data.teamLead || data.teamLead.trim().length < 2) {
+    errors.teamLead = 'Community team lead name is required (minimum 2 characters).';
+  }
+  if (!data.summary || data.summary.trim().length < 15) {
+    errors.summary = 'Batch summary/retrospective is required (minimum 15 characters).';
+  }
+  if (data.membersCount !== undefined && data.membersCount <= 0) {
+    errors.membersCount = 'Members count must be a positive integer.';
   }
 
   return {

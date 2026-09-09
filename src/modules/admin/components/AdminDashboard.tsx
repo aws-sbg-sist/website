@@ -2,6 +2,16 @@ import React, { useState } from 'react';
 import { AdminSection } from '../types';
 import { AdminShell } from './layout/AdminShell';
 import { DashboardOverview } from './overview/DashboardOverview';
+import { MembersManager } from './crud/MembersManager';
+import { CoreTeamManager } from './crud/CoreTeamManager';
+import { EventsManager } from './crud/EventsManager';
+import { ArticlesManager } from './crud/ArticlesManager';
+import { AnnouncementsManager } from './crud/AnnouncementsManager';
+import { ResourcesManager } from './crud/ResourcesManager';
+import { ProjectsManager } from './crud/ProjectsManager';
+import { AchievementsManager } from './crud/AchievementsManager';
+import { AlumniTeamsManager } from './crud/AlumniTeamsManager';
+import { GalleryManager } from './crud/GalleryManager';
 
 export const AdminDashboard: React.FC = () => {
   const [activeSection, setActiveSection] = useState<AdminSection>('overview');
@@ -15,6 +25,26 @@ export const AdminDashboard: React.FC = () => {
         <DashboardOverview
           onNavigateToSection={(section) => setActiveSection(section)}
         />
+      ) : activeSection === 'members' ? (
+        <MembersManager />
+      ) : activeSection === 'core-team' ? (
+        <CoreTeamManager />
+      ) : activeSection === 'events' ? (
+        <EventsManager />
+      ) : activeSection === 'articles' ? (
+        <ArticlesManager />
+      ) : activeSection === 'announcements' ? (
+        <AnnouncementsManager />
+      ) : activeSection === 'resources' ? (
+        <ResourcesManager />
+      ) : activeSection === 'projects' ? (
+        <ProjectsManager />
+      ) : activeSection === 'achievements' ? (
+        <AchievementsManager />
+      ) : activeSection === 'alumni-teams' ? (
+        <AlumniTeamsManager />
+      ) : activeSection === 'gallery' ? (
+        <GalleryManager />
       ) : (
         <div className="rounded-xl border border-slate-200 bg-white p-8 shadow-xs">
           <div className="flex items-center justify-between border-b border-slate-100 pb-4">
