@@ -10,7 +10,7 @@ export function AboutHero({ mission, vision, description, values }: Pick<AboutPa
       </svg>
       <div className="container hero-grid">
         <div>
-          <div className="eyebrow">Member 03 · About</div>
+          <div className="eyebrow">About</div>
           <h1><span>AWS Student Builder</span><em>Group</em></h1>
           <p>{description}</p>
           <div className="values" aria-label="Community values">
