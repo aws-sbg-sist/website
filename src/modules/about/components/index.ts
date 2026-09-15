@@ -1,4 +1,4 @@
-export { default as AboutHero } from "./AboutHero";
-export { default as TimelineSection } from "./TimelineSection";
-export { default as ExperienceCards } from "./ExperienceCards";
-export { default as FAQSection } from "./FAQSection";
+export { AboutHero } from "./AboutHero";
+export { TimelineSection } from "./TimelineSection";
+export { ExperienceCards } from "./ExperienceCards";
+export { FAQSection } from "./FAQSection";
