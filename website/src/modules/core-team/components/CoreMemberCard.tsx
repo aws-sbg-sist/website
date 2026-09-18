@@ -1,8 +1,9 @@
+import { useState } from "react";
 import type { CoreMember } from "../types";
 
-interface CoreMemberCardProps {
+export interface CoreMemberCardProps {
   member: CoreMember;
-  onSelect?: () => void;
+  onViewProfile: (member: CoreMember) => void;
 }
 
 function getInitials(name: string) {
@@ -16,76 +17,72 @@ function getInitials(name: string) {
 
 export default function CoreMemberCard({
   member,
-  onSelect,
+  onViewProfile,
 }: CoreMemberCardProps) {
+  const [hasImageError, setHasImageError] = useState(false);
+
   return (
     <article className="core-member-card">
       <div className="core-member-card__topline">
-        <span className="core-member-card__team">
-          {member.teamName}
-        </span>
-
+        <span className="core-member-card__team">{member.teamName}</span>
         <span
           className="core-member-card__status"
-          aria-label="Active core team member"
+          aria-hidden="true"
         />
       </div>
 
       <div className="core-member-card__identity">
-        {member.photoUrl ? (
+        {member.photoUrl && !hasImageError ? (
           <img
             className="core-member-card__avatar"
             src={member.photoUrl}
-            alt={`${member.name} profile`}
+            alt={`Profile photo of ${member.name}`}
+            onError={() => setHasImageError(true)}
           />
         ) : (
           <div
             className="core-member-card__avatar core-member-card__avatar--placeholder"
-            aria-hidden="true"
+            role="img"
+            aria-label={`Profile photo unavailable for ${member.name}`}
           >
             {getInitials(member.name)}
           </div>
         )}
 
         <div className="core-member-card__info">
-          <h2>{member.name}</h2>
+          <h3>{member.name}</h3>
           <p>{member.department}</p>
         </div>
       </div>
 
-      <div className="core-member-card__details">
+      <dl className="core-member-card__details">
         <div>
-          <span>YEAR</span>
-          <strong>{member.year}</strong>
+          <dt>Year</dt>
+          <dd>{member.year}</dd>
         </div>
-
         <div>
-          <span>TEAM</span>
-          <strong>{member.teamName}</strong>
+          <dt>Team</dt>
+          <dd>{member.teamName}</dd>
         </div>
-      </div>
+      </dl>
 
       {member.about && (
-        <p className="core-member-card__about">
-          {member.about}
-        </p>
+        <p className="core-member-card__about">{member.about}</p>
       )}
 
       <div className="core-member-card__actions">
-        {onSelect && (
-          <button type="button" onClick={onSelect}>
-            View Profile
-          </button>
-        )}
+        <button type="button" onClick={() => onViewProfile(member)}>
+          View profile
+        </button>
 
-        {member.linkedinUrl && member.linkedinUrl !== "#" && (
+        {member.linkedinUrl && (
           <a
             className="core-member-card__linkedin"
             href={member.linkedinUrl}
             target="_blank"
             rel="noreferrer"
           >
-            View LinkedIn →
+            View LinkedIn profile (external)
           </a>
         )}
       </div>

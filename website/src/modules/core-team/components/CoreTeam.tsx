@@ -1,30 +1,25 @@
-import { useState } from "react";
-import { coreMembers } from "../data/mockData";
+import { getCoreMembers } from "../data";
+import type { CoreMember } from "../types";
 import CoreMemberCard from "./CoreMemberCard";
-import CoreMemberProfile from "./CoreMemberProfile";
 
-export default function CoreTeam() {
-  const [selectedMemberId, setSelectedMemberId] = useState<string | null>(null);
+export interface CoreTeamProps {
+  members?: CoreMember[];
+  onMemberSelect: (member: CoreMember) => void;
+}
 
-  const selectedMember = coreMembers.find(
-    (member) => member.id === selectedMemberId,
-  );
+function groupMembersByTeam(members: CoreMember[]) {
+  return members.reduce<Record<string, CoreMember[]>>((groups, member) => {
+    const teamMembers = groups[member.teamName] ?? [];
+    groups[member.teamName] = [...teamMembers, member];
+    return groups;
+  }, {});
+}
 
-  if (selectedMember) {
-    return (
-      <section
-        className="core-team"
-        aria-labelledby="core-member-profile-title"
-      >
-        <div className="core-team__content">
-          <CoreMemberProfile
-            member={selectedMember}
-            onBack={() => setSelectedMemberId(null)}
-          />
-        </div>
-      </section>
-    );
-  }
+export default function CoreTeam({
+  members = getCoreMembers(),
+  onMemberSelect,
+}: CoreTeamProps) {
+  const groupedMembers = groupMembersByTeam(members);
 
   return (
     <section className="core-team" aria-labelledby="core-team-title">
@@ -42,15 +37,31 @@ export default function CoreTeam() {
           </p>
         </header>
 
-        <div className="core-team__grid" aria-label="Core team members">
-          {coreMembers.map((member) => (
-            <CoreMemberCard
-              key={member.id}
-              member={member}
-              onSelect={() => setSelectedMemberId(member.id)}
-            />
-          ))}
-        </div>
+        {members.length === 0 ? (
+          <p role="status">No core team members are available yet.</p>
+        ) : (
+          <div className="core-team__groups">
+            {Object.entries(groupedMembers).map(([teamName, teamMembers]) => (
+              <section
+                className="core-team__group"
+                key={teamName}
+                aria-labelledby={`core-team-group-${teamMembers[0].id}`}
+              >
+                <h2 id={`core-team-group-${teamMembers[0].id}`}>{teamName}</h2>
+
+                <div className="core-team__grid">
+                  {teamMembers.map((member) => (
+                    <CoreMemberCard
+                      key={member.id}
+                      member={member}
+                      onViewProfile={onMemberSelect}
+                    />
+                  ))}
+                </div>
+              </section>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
