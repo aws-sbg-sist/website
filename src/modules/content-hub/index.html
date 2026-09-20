@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Content Hub — AWS Student Builder Group</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./content-hub.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site">
+  <div class="wrap masthead">
+    <a class="brand" href="#/reading">AWS Student Builder Group<br><span>Content Hub</span></a>
+    <nav class="tabs" id="tabs" aria-label="Sections">
+      <a href="#/reading">Reading</a>
+      <a href="#/announcements">Announcements</a>
+      <a href="#/learn">Learn AWS</a>
+      <a href="#/notes">Notes</a>
+    </nav>
+  </div>
+</header>
+
+<div id="statebar" hidden class="statebar"></div>
+
+<main id="main" tabindex="-1"><div class="wrap" id="view"></div></main>
+
+<footer class="site">
+  <div class="wrap">
+    <span id="foot-count"></span>
+    <button id="theme-toggle" type="button">Switch theme</button>
+  </div>
+</footer>
+
+<script type="module" src="./index.js"></script>
+</body>
+</html>
